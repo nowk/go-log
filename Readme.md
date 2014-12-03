@@ -6,7 +6,7 @@
   [ci]: https://travis-ci.org/nowk/go-log
   [gd]: http://godoc.org/github.com/nowk/go-log
 
-Wrapper around log to for log levels
+Wrapper around log for log levels
 
 
 ## License
