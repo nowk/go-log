@@ -45,12 +45,9 @@ func New(prefix string, flags int, w ...io.Writer) *Logger {
 	var wr io.Writer
 	if len(w) == 1 {
 		wr = w[0]
-	} else {
+	} else if len(w) > 1 {
 		wr = io.MultiWriter(w...)
-	}
-
-	// no writers, output to Stderr
-	if wr == nil {
+	} else {
 		wr = os.Stderr
 	}
 
