@@ -7,6 +7,10 @@ import (
 	"os"
 )
 
+type logger interface {
+	Output(calldepth int, s string) error
+}
+
 type Level int
 
 const (
@@ -62,7 +66,7 @@ func (l Logger) Output(calldepth int, s string) error {
 
 // Log provides log level checks before writing. As well as level string prefix
 // before the message
-func (l Logger) Log(lvl Level, p string, v ...interface{}) error {
+func Log(l logger, lvl Level, p string, v ...interface{}) error {
 	s, ok := levels[lvl]
 	if !ok || lvl < LogLevel {
 		return nil
@@ -73,6 +77,10 @@ func (l Logger) Log(lvl Level, p string, v ...interface{}) error {
 // f is a short cut to fmt.Sprintf
 func f(p string, v ...interface{}) string {
 	return fmt.Sprintf(p, v...)
+}
+
+func (l Logger) Log(lvl Level, p string, v ...interface{}) error {
+	return Log(l, lvl, p, v...)
 }
 
 func (l Logger) Debug(p string, v ...interface{}) error {
