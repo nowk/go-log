@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strings"
 )
 
 type Logger interface {
@@ -37,6 +38,20 @@ var (
 
 func SetLogLevel(l Level) {
 	LogLevel = l
+
+	log.Printf("log: level: %s\n", levels[LogLevel])
+}
+
+func SetLogLevelStr(s string) {
+	s = strings.ToUpper(s)
+	for k, v := range levels {
+		if s == v {
+			SetLogLevel(k)
+			return
+		}
+	}
+
+	log.Printf("log: error: unknown level %s", s)
 }
 
 // logger wraps go built-in log

@@ -35,7 +35,7 @@ func TestWithLogLevelValue(t *testing.T) {
 }
 
 func TestOutputAtOrAbove(t *testing.T) {
-	SetLogLevel(WARN)
+	SetLogLevelStr("warn")
 	defer SetLogLevel(INFO)
 
 	var b []byte
