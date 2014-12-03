@@ -3,6 +3,7 @@ package log
 import (
 	"bytes"
 	"github.com/nowk/assert"
+	"log"
 	"testing"
 )
 
@@ -52,4 +53,17 @@ func TestOutputAtOrAbove(t *testing.T) {
 		t.Fatal(err)
 	}
 	assert.Equal(t, "[WARN] All your bases!\n", w.String())
+}
+
+func TestUsingLoggerInterface(t *testing.T) {
+	var b []byte
+	w := bytes.NewBuffer(b)
+
+	l := log.New(w, "PREFIX: ", 0)
+	err := Log(l, INFO, "%s!", "Hello World")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assert.Equal(t, "PREFIX: [INFO] Hello World!\n", w.String())
 }
