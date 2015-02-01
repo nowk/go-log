@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type Logger interface {
+type Outputter interface {
 	Output(calldepth int, s string) error
 }
 
@@ -81,7 +81,7 @@ func (l logger) Output(calldepth int, s string) error {
 
 // Log provides log level checks before writing. As well as level string prefix
 // before the message
-func Log(l Logger, lvl Level, p string, v ...interface{}) error {
+func Log(l Outputter, lvl Level, p string, v ...interface{}) error {
 	s, ok := levels[lvl]
 	if !ok || lvl < LogLevel {
 		return nil
