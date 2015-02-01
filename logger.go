@@ -54,13 +54,13 @@ func SetLogLevelStr(s string) {
 	log.Printf("log: error: unknown level %s", s)
 }
 
-// logger wraps go built-in log
-type logger struct {
+// Logger wraps go built-in log
+type Logger struct {
 	*log.Logger
 }
 
-// New returns a logger for one or more Writers
-func New(prefix string, flags int, w ...io.Writer) *logger {
+// New returns a Logger for one or more Writers
+func New(prefix string, flags int, w ...io.Writer) *Logger {
 	var wr io.Writer
 	if len(w) == 1 {
 		wr = w[0]
@@ -70,12 +70,12 @@ func New(prefix string, flags int, w ...io.Writer) *logger {
 		wr = os.Stderr
 	}
 
-	return &logger{
+	return &Logger{
 		Logger: log.New(wr, prefix, flags),
 	}
 }
 
-func (l logger) Output(calldepth int, s string) error {
+func (l Logger) Output(calldepth int, s string) error {
 	return l.Logger.Output(calldepth, s)
 }
 
@@ -95,32 +95,32 @@ func f(p string, v ...interface{}) string {
 	return fmt.Sprintf(p, v...)
 }
 
-func (l logger) Log(lvl Level, p string, v ...interface{}) error {
+func (l Logger) Log(lvl Level, p string, v ...interface{}) error {
 	return Log(l, lvl, p, v...)
 }
 
-func (l logger) Debug(p string, v ...interface{}) error {
+func (l Logger) Debug(p string, v ...interface{}) error {
 	return l.Log(DEBUG, p, v...)
 }
 
-func (l logger) Info(p string, v ...interface{}) error {
+func (l Logger) Info(p string, v ...interface{}) error {
 	return l.Log(INFO, p, v...)
 }
 
-func (l logger) Notice(p string, v ...interface{}) error {
+func (l Logger) Notice(p string, v ...interface{}) error {
 	return l.Log(NOTICE, p, v...)
 }
 
-func (l logger) Warn(p string, v ...interface{}) error {
+func (l Logger) Warn(p string, v ...interface{}) error {
 	return l.Log(WARN, p, v...)
 }
 
-func (l logger) Error(p string, v ...interface{}) error {
+func (l Logger) Error(p string, v ...interface{}) error {
 	return l.Log(ERROR, p, v...)
 }
 
 // Fatal exits process
-func (l logger) Fatal(p string, v ...interface{}) error {
+func (l Logger) Fatal(p string, v ...interface{}) error {
 	l.Log(FATAL, p, v...)
 	os.Exit(1)
 	return nil
